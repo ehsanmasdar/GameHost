@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Education Game</title>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <link href="/styles/main.css" rel="stylesheet">
+  </head>
+  <body>
+  	HELLO WORLD
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io();
+		socket.on('hello', function (data) {
+			console.log('hello:', data);
+		});
+	
+    </script>
+  </body> 
+</html>
