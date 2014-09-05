@@ -24,18 +24,25 @@ io.on('connection', function (socket) {
     });
   socket.on('join', function () {
     console.log( 'user ' + id + '  requested join');
+    //Set socket sate to searching
     socket.searching = true;
     for (var i = 0; i < users.length; i++){
       entry = users[i];
       if (entry.searching == true && entry != socket){
+        //Match found, set searching to false and join to true
         socket.searching = false;
         entry.searching = false;
-        socket.connectedTo = i;
-        entry.connectedTo = id;
-        entry.player = 0;
-        socket.player = 1;
         socket.join = true;
         entry.join = true;
+        //Tell clients who they are connected to
+        //I represents the socket the local socket connects to
+        socket.connectedTo = i;
+        //id represents the number of the local socket that the external connected to 
+        entry.connectedTo = id;
+        //Finally, give each player a turn order number (0 for first, 1 for second)
+        entry.player = 0;
+        socket.player = 1;
+
         socket.emit("connection", {"id":i});
         entry.emit("connection", {"id":id});
         console.log("Player id " + i + " successfully connected to player " + id);
