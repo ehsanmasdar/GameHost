@@ -9,13 +9,15 @@ socket.on('hello', function (data) {
 
 socket.on('gamerecieve', function (data) {
   console.log('gamerecieve:', data);
+  GAME.tic.inputMove(data);
 });
 
 socket.on('connection', function (data) {
   console.log('connection:', data);
   $('#connection').text(function(i, oldText) {
-    return "Connected to room "  + data.id;
+    return "Connected to room "  + data.room + " as player " + data.id;
   });
+  document.getElementById("canvas").style.visibility="visible"; 
 });
 $("#join").submit(function(event)
 {

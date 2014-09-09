@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = 3001;
+var port = 3002;
 
 
 app.use("/styles", express.static(__dirname + '/styles'));
@@ -66,7 +66,7 @@ io.on('connection', function (socket) {
   socket.on('gamesend', function (data) {
     if (socket.isConnected){
       console.log(data);
-      data.player = 1;
+      data.playerID = 1;
       //To just other clients
       socket.to(socket.connectedToRoom).emit('gamerecieve', data)
       //To everyone
