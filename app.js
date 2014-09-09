@@ -56,8 +56,8 @@ io.on('connection', function (socket) {
         socket.player = 1;
         socket.join(room);
         entry.join(room);
-        socket.emit('connection', {"id":room});
-        entry.emit('connection', {"id":room});
+        socket.emit('connection', {"id":socket.player, "room":room});
+        entry.emit('connection', {"id": entry.player, "room":room});
         console.log("Player id " + i + " successfully connected to player " + id + " at room " + room);
       }
     }
@@ -66,10 +66,11 @@ io.on('connection', function (socket) {
   socket.on('gamesend', function (data) {
     if (socket.isConnected){
       console.log(data);
+      data.player = 1;
       //To just other clients
-      //socket.to(socket.connectedToRoom).emit('gamerecieve', data)
+      socket.to(socket.connectedToRoom).emit('gamerecieve', data)
       //To everyone
-      io.sockets.in(socket.connectedToRoom).emit('gamerecieve', data);
+      //io.sockets.in(socket.connectedToRoom).emit('gamerecieve', data);
     } 
   });
 
@@ -77,6 +78,7 @@ io.on('connection', function (socket) {
     console.log( 'user ' + id + '  disconnected');
     currentusers--;
     console.log("Curent Users: " + currentusers);
+    socket.isConnected = false;
   });
 
 });
