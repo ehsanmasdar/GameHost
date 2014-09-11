@@ -1,6 +1,7 @@
 // Setup basic express server
 var express = require('express');
 var app = express();
+var _ = require('lodash');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var room = require('./room.js');
@@ -14,7 +15,7 @@ app.get('/', function(req, res){
     res.sendfile('index.html');
 });
 
-io.on('connection', room.onConnection);
+io.on('connection', _.partial(room.onConnection, io));
 
 http.listen(port, function () {
     console.log('Server listening at port %d', port);
