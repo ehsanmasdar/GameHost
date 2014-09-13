@@ -4,9 +4,9 @@ function onMousedown(e){
     for (var z = GAME.tic.gameBoard[i].length - 1; z >= 0; z--) {
        if(z*100+10<pos.x && z*100+110>pos.x && i*100+10<pos.y && i*100+110>pos.y){
           var move = {playerID:0,row:i,column:z};
-          if (GAME.tic.inputMove(move)) {
+
             socket.emit("gamesend", move);
-          };
+
        } 
      }; 
   };

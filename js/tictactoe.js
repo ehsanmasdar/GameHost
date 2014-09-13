@@ -1,4 +1,4 @@
-function tictactoe(playerIDs){
+tictactoe = function (playerIDs) {
   this.gameBoard = new Array(3);
   this.player = playerIDs;
   for (var i = this.gameBoard.length - 1; i >= 0; i--) {
@@ -7,8 +7,18 @@ function tictactoe(playerIDs){
       this.gameBoard[i][z] = 0;
     };
   };
+  this.update = function (board) {
+	  for (var i = 0; i < 3; i++) {
+		  for (var j = 0; j < 3; j++) {
+			  if (board[i][j]) {
+				  this.gameBoard[i][j] = (board[i][j] == this.player[0] ?"#44accf":"#ee3e64");
+			  }
+		  }
+	  }
+  }
   this.inputMove = function(input){
-    if(this.isMoveValid(input)&&this.player[0]==input.playerID||this.player[1]==input.playerID){
+	  if (true) {
+//    if(this.isMoveValid(input)&&this.player[0]==input.playerID||this.player[1]==input.playerID){
       console.log(this.player[0] + " " + input.playerID)
       var toke = ((this.player[0]==input.playerID)?"#44accf":"#ee3e64")
       this.gameBoard[input.row][input.column]=toke;
