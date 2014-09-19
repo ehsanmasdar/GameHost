@@ -1,4 +1,3 @@
 GameHost
 ========
-test
-test
+A platform for game ai creation.
