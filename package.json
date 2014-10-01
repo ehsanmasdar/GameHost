@@ -13,7 +13,7 @@
     "express": "~4.2.0",
     "jade": "^1.7.0",
     "lodash": "*",
-    "mongodb": "^1.4.12",
+    "mongoose": "^3.8.17",
     "morgan": "~1.0.0",
     "node-uuid": "*",
     "path": "^0.4.9",
