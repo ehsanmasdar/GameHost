@@ -9,14 +9,15 @@ module.exports.findCompatible = function (users) {
 };
 
 module.exports.Game = function (players) {
-	var n = 40;
+	var n = 5;
 	this.players = players;
 	this.lastmove = [false];
 	this.gameBoard = new Array(n);
 	for (var i = 0; i < n; i++) {
 		this.gameBoard[i] = new Array(n);
 		for (var j = 0; j < n; j++) {
-			for (var k = 0; k < 4; i++) {
+			this.gameBoard[i][j] = new Array(4);
+			for (var k = 0; k < 4; k++) {
 				this.gameBoard[i][j][k] = false;
 			}
 		}
@@ -30,29 +31,42 @@ module.exports.Game = function (players) {
 
 	this.inputMove = function (input) {
 		if (this.isMoveValid(input)) {
-			this.gameBoard[input.row][input.column] = input.playerID;
+			this.updateBoard(input);
 			this.logMove(input);
 			this.toggleUser();
 		}
 	};
 
-	this.logMove = function (input) {
-		this.lastmove.push(_.pick(input, ['row', 'column', 'playerID']));
+	this.isMoveValid = function (input) {
+		return this.players[0].ID === input.playerID &&
+		       this.gameBoard[input.x][input.y][input.z] === false;
 	};
 
-	this.toggleUser = function () {
-		if (this.players[0].ID == input.playerID) {
-			this.expectedPlayer = this.players[1].ID;
-		} else {
-			this.expectedPlayer = this.players[0].ID;
+	this.updateBoard = function (input) {
+		this.gameBoard[input.x][input.y][input.z] = input.playerID;
+		if (input.z === 0) {
+			this.gameBoard[input.x][input.y - 1][2] = input.playerID;
+		}
+		if (input.z === 1) {
+			this.gameBoard[input.x - 1][input.y][3] = input.playerID;
+		}
+		if (input.z == 2) {
+			this.gameBoard[input.x][input.y + 1][0] = input.playerID;
+		}
+		if (input.z == 3) {
+			this.gameBoard[input.x + 1][input.y][1] = input.playerID;
 		}
 	};
 
-	this.isMoveValid = function (input) {
-		if (input.playerID == this.expectedPlayer && this.gameBoard[input.row][input.column] === false) {
-			return true;
+	this.logMove = function (input) {
+
+	};
+
+	this.toggleUser = function () {
+		if (this.players[0].ID === input.playerID) {
+			this.expectedPlayer = this.players[1].ID;
 		} else {
-			return false;
+			this.expectedPlayer = this.players[0].ID;
 		}
 	};
 
@@ -62,5 +76,12 @@ module.exports.Game = function (players) {
 			'expectedPlayer': this.expectedPlayer,
 			'lastmove': this.lastmove[this.lastmove.length - 1]
 		};
+		msgs = _.map(this.players, function (user) {
+			shallow = {};
+			shallow.data = data;
+			shallow.target = user;
+			return shallow;
+		});
+		return msgs;
 	};
 };
